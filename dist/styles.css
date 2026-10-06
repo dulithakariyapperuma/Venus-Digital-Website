@@ -255,3 +255,280 @@
     border-radius: 20px;
   }
 }
+
+/* ==========================================================================
+   Sliding Carousel / Horizontal Track Styles (Concepts from reference)
+   ========================================================================== */
+
+.slider-header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.slider-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.slider-arrow-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(213, 161, 108, 0.3);
+  background: rgba(14, 21, 25, 0.8);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+
+.slider-arrow-btn:hover {
+  background: var(--gold);
+  color: #050708;
+  border-color: var(--gold);
+  transform: scale(1.06);
+}
+
+.slider-arrow-btn:active {
+  transform: scale(0.96);
+}
+
+.slider-arrow-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Horizontal Sliding Reel Track */
+.sliding-reel-track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 10px 4px 30px;
+}
+
+.sliding-reel-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Video Sliding Item */
+.sliding-video-item {
+  flex: 0 0 270px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1200px) {
+  .sliding-video-item {
+    flex: 0 0 280px;
+  }
+}
+
+.sliding-video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #090e11;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(213, 161, 108, 0.2);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sliding-video-frame:hover {
+  transform: translateY(-4px);
+  border-color: rgba(213, 161, 108, 0.5);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(213, 161, 108, 0.15);
+}
+
+.sliding-video-frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Play button overlay */
+.video-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+  pointer-events: auto;
+}
+
+.video-play-overlay.is-playing {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.play-icon-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease, background 0.25s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.sliding-video-frame:hover .play-icon-circle {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.play-icon-circle svg {
+  width: 22px;
+  height: 22px;
+  fill: #050708;
+  margin-left: 3px;
+}
+
+.sliding-video-info {
+  padding-top: 16px;
+  border-bottom: 1px solid rgba(212, 175, 128, 0.2);
+  padding-bottom: 14px;
+}
+
+.sliding-video-info h3 {
+  font-size: 19px;
+  font-weight: 500;
+  margin: 0;
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+
+.sliding-video-info p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 4px 0 0;
+  letter-spacing: 0.01em;
+}
+
+.sliding-video-info p span {
+  color: var(--gold);
+}
+
+/* Quote Icon Top Header */
+.quote-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: rgba(213, 161, 108, 0.14);
+  color: var(--gold);
+  font-size: 38px;
+  font-family: Georgia, serif;
+  line-height: 1;
+  border: 1px solid rgba(213, 161, 108, 0.28);
+}
+
+/* Sliding Text Testimonial Card */
+.sliding-text-item {
+  flex: 0 0 360px;
+  scroll-snap-align: start;
+  background: linear-gradient(160deg, rgba(17, 24, 28, 0.8) 0%, rgba(8, 12, 14, 0.92) 100%);
+  border: 1px solid rgba(213, 161, 108, 0.22);
+  border-radius: 22px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.55);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (max-width: 600px) {
+  .sliding-text-item {
+    flex: 0 0 300px;
+    padding: 24px 20px;
+  }
+  .sliding-video-item {
+    flex: 0 0 240px;
+  }
+}
+
+.sliding-text-item:hover {
+  transform: translateY(-5px);
+  border-color: rgba(213, 161, 108, 0.45);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7);
+}
+
+.sliding-headline {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text);
+  margin: 0 0 14px;
+  font-family: var(--body);
+}
+
+.sliding-body {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #caced0;
+  margin: 0 0 24px;
+  flex-grow: 1;
+}
+
+.sliding-author-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(212, 175, 128, 0.16);
+}
+
+.sliding-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(213, 161, 108, 0.35), rgba(213, 161, 108, 0.1));
+  border: 1px solid rgba(213, 161, 108, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.sliding-author-meta h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.sliding-author-meta p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.sliding-author-meta p span {
+  color: var(--gold);
+}
