@@ -14,6 +14,8 @@
   <script src="booking.js" defer></script>
   <script src="app.js" defer></script>
   <script src="testimonials.js" defer></script>
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body class="testimonials-page">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -60,7 +62,6 @@
           <div class="sliding-video-frame">
             <video preload="metadata" playsinline controls aria-label="Giuliana Zaccardelli client video">
               <source src="assets/videos/video-1.mp4" type="video/mp4">
-              <source src="assets/videos/Recommendations.mp4" type="video/mp4">
               Your browser does not support HTML5 video.
             </video>
             <div class="video-play-overlay" aria-label="Play Giuliana Zaccardelli video">
@@ -80,7 +81,6 @@
           <div class="sliding-video-frame">
             <video preload="metadata" playsinline controls aria-label="Dr. Sandara Ho client video">
               <source src="assets/videos/video-2.mp4" type="video/mp4">
-              <source src="assets/videos/Recommendation%202.mp4" type="video/mp4">
               Your browser does not support HTML5 video.
             </video>
             <div class="video-play-overlay" aria-label="Play Dr. Sandara Ho video">
@@ -323,25 +323,5 @@
     </div>
     <span>© <span id="year">2026</span> Venus Digital LLC</span>
   </footer>
-  <dialog id="contact-dialog" aria-labelledby="contact-title">
-    <button class="dialog-close" aria-label="Close booking details">×</button>
-    <div class="booking-person">
-      <img src="assets/sandaras.png" alt="Sandaras - Founder of Venus Digital" width="72" height="72">
-      <div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:18px;font-weight:500;">Sandaras</span>
-          <span class="founder-tag-pill" style="font-size:10px;padding:2px 10px;">FOUNDER</span>
-        </div>
-        <p>Venus Digital · Google Meet</p>
-      </div>
-    </div>
-    <h2 id="contact-title">Let’s talk about<br>your next chapter.</h2>
-    <p class="dialog-description">A conversation about your content, your systems, and where you want to grow.</p>
-    <div class="booking-status">
-      <span class="booking-icon" aria-hidden="true">✦</span>
-      <p>Online booking will be available soon.</p>
-    </div>
-    <a class="button button-outline dialog-services" href="index.html#services">Explore our services</a>
-  </dialog>
 </body>
 </html>

@@ -274,16 +274,10 @@ function closeMenu() { nav.classList.remove('is-open'); menuButton.setAttribute(
 menuButton.addEventListener('click', () => { const open = menuButton.getAttribute('aria-expanded') !== 'true'; nav.classList.toggle('is-open', open); menuButton.setAttribute('aria-expanded', String(open)); menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation'); });
 nav.querySelectorAll('a,button').forEach(link => link.addEventListener('click', closeMenu));
 document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
-const dialog = document.querySelector('#contact-dialog');
-document.querySelectorAll('[data-contact]').forEach(button => button.addEventListener('click', () => {
-  const bookingUrl = window.VENUS_BOOKING_URL;
-  if (bookingUrl) {
-    window.open(bookingUrl, '_blank', 'noopener,noreferrer');
-    return;
+document.querySelectorAll('[data-contact]').forEach(button => button.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (window.Calendly) {
+    window.Calendly.initPopupWidget({url: 'https://calendly.com/send2sandaras/30min'});
   }
-  dialog.showModal();
 }));
-document.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
-document.querySelector('.dialog-services').addEventListener('click', () => dialog.close());
-dialog.addEventListener('click', event => { const rect = dialog.getBoundingClientRect(); if (event.target === dialog && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) dialog.close(); });
 document.querySelector('#year').textContent = new Date().getFullYear();
