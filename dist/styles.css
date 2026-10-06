@@ -688,3 +688,422 @@ details[open] .expand-mark {
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
   margin-bottom: 14px;
 }
+
+/* ==========================================================================
+   MotionSites.ai Inspired Ultra-Modern Design System
+   ========================================================================== */
+
+/* Iridescent Shimmer Text & Badges */
+.motion-gradient-text {
+  background: linear-gradient(135deg, #ffffff 10%, #edd3b2 50%, #d5a16c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.motion-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  background: rgba(213, 161, 108, 0.08);
+  border: 1px solid rgba(213, 161, 108, 0.3);
+  box-shadow: 0 0 20px rgba(213, 161, 108, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  margin-bottom: 20px;
+}
+
+.motion-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.6; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.motion-badge-text {
+  font-family: var(--condensed);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* Motion Bento Grid for Services */
+.services-bento-section {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 100px 6%;
+}
+
+.bento-header-wrap {
+  margin-bottom: 56px;
+  max-width: 720px;
+}
+
+.bento-header-wrap h2 {
+  font-size: clamp(38px, 4.5vw, 58px);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin: 12px 0 18px;
+}
+
+.bento-header-wrap p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+/* Base Bento Card */
+.bento-card {
+  position: relative;
+  background: linear-gradient(155deg, rgba(20, 28, 34, 0.65) 0%, rgba(9, 13, 16, 0.85) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  padding: 38px 34px;
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  box-shadow: 0 12px 35px -10px rgba(0, 0, 0, 0.6), inset 0 1px 1px 0 rgba(255, 255, 255, 0.22);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bento-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(213, 161, 108, 0.45);
+  box-shadow: 0 22px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px -5px rgba(213, 161, 108, 0.2), inset 0 1px 2px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* Ambient Radial Glow on Hover */
+.bento-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 180px;
+  background: radial-gradient(ellipse at 50% -20%, rgba(213, 161, 108, 0.18), transparent 70%);
+  pointer-events: none;
+  opacity: 0.5;
+  transition: opacity 0.35s ease;
+}
+
+.bento-card:hover::before {
+  opacity: 1;
+}
+
+/* Bento Card Grid Positioning */
+.bento-card-large {
+  grid-column: span 7;
+}
+
+.bento-card-medium {
+  grid-column: span 5;
+}
+
+.bento-card-third {
+  grid-column: span 4;
+}
+
+/* Top Meta Row inside Bento Card */
+.bento-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.bento-num-pill {
+  font-family: var(--condensed);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  background: rgba(213, 161, 108, 0.12);
+  border: 1px solid rgba(213, 161, 108, 0.28);
+  padding: 4px 14px;
+  border-radius: 9999px;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.bento-icon-glow {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.bento-card:hover .bento-icon-glow {
+  background: rgba(213, 161, 108, 0.18);
+  border-color: rgba(213, 161, 108, 0.4);
+  transform: scale(1.08);
+}
+
+.bento-icon-glow svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Bento Typography */
+.bento-content h3 {
+  font-size: clamp(23px, 2.2vw, 30px);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--text);
+  margin: 0 0 14px;
+  letter-spacing: -0.01em;
+}
+
+.bento-content p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #c7cbcf;
+  margin: 0 0 28px;
+}
+
+/* Bento Pill Tags (MotionSites style) */
+.bento-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.bento-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #e2e5e8;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transition: all 0.25s ease;
+}
+
+.bento-tag span {
+  color: var(--gold);
+  font-size: 10px;
+}
+
+.bento-card:hover .bento-tag {
+  border-color: rgba(213, 161, 108, 0.25);
+}
+
+.bento-tag:hover {
+  background: rgba(213, 161, 108, 0.18);
+  color: #fff;
+  border-color: rgba(213, 161, 108, 0.45);
+}
+
+/* ==========================================================================
+   MotionSites 3D Glass Cards for Solutions Section
+   ========================================================================== */
+.solutions-motion-section {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 100px 6%;
+}
+
+.solutions-motion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+  margin-top: 56px;
+}
+
+.solution-motion-card {
+  position: relative;
+  background: linear-gradient(165deg, rgba(22, 30, 36, 0.7) 0%, rgba(8, 12, 15, 0.92) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 30px;
+  padding: 44px 34px 38px;
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  box-shadow: 0 14px 40px -10px rgba(0, 0, 0, 0.65), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.4s ease;
+  overflow: hidden;
+}
+
+.solution-motion-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(213, 161, 108, 0.5);
+  box-shadow: 0 26px 60px -15px rgba(0, 0, 0, 0.85), 0 0 35px -5px rgba(213, 161, 108, 0.22), inset 0 1px 2px 0 rgba(255, 255, 255, 0.4);
+}
+
+.solution-motion-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: radial-gradient(ellipse at 50% -20%, rgba(213, 161, 108, 0.25), transparent 70%);
+  pointer-events: none;
+  opacity: 0.6;
+  transition: opacity 0.35s ease;
+}
+
+.solution-motion-card:hover::before {
+  opacity: 1;
+}
+
+.solution-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  background: rgba(213, 161, 108, 0.12);
+  border: 1px solid rgba(213, 161, 108, 0.3);
+  font-family: var(--condensed);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 22px;
+  width: fit-content;
+}
+
+.solution-motion-card h3 {
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin: 0 0 16px;
+}
+
+.solution-motion-card p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #c7cbcf;
+  margin: 0 0 30px;
+}
+
+/* Feature Checklist with Glowing Golden Dots */
+.solution-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.solution-feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #e2e4e0;
+}
+
+.solution-feature-list li svg {
+  width: 16px;
+  height: 16px;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+/* MotionSites Action Button */
+.solution-motion-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 22px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(12px);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.18);
+}
+
+.solution-motion-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.25s ease;
+}
+
+.solution-motion-card:hover .solution-motion-btn {
+  background: rgba(213, 161, 108, 0.15);
+  border-color: rgba(213, 161, 108, 0.4);
+  color: var(--gold);
+}
+
+.solution-motion-btn:hover {
+  background: var(--gold) !important;
+  color: #050708 !important;
+  border-color: var(--gold) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(213, 161, 108, 0.35);
+}
+
+.solution-motion-btn:hover svg {
+  transform: translateX(4px);
+}
+
+/* Responsiveness for Bento & Solution Grids */
+@media (max-width: 1024px) {
+  .bento-card-large {
+    grid-column: span 12;
+  }
+  .bento-card-medium {
+    grid-column: span 12;
+  }
+  .bento-card-third {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 768px) {
+  .bento-card-third {
+    grid-column: span 12;
+  }
+  .bento-card {
+    padding: 28px 24px;
+    border-radius: 22px;
+  }
+  .solution-motion-card {
+    padding: 32px 24px;
+    border-radius: 24px;
+  }
+}
