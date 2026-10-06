@@ -16,59 +16,148 @@ if (video && motionButton) {
   let isBoomerangReady = false;
   let isBoomerangRunning = false;
   let frameIndex = 0;
-  let direction = -1; // When forward play ends, boomerang starts backwards
+  let direction = -1;
   let lastTimestamp = 0;
+  let lastPresentedFrame = -1;
+  let lastMediaTime = -1;
+  let isCallbackScheduled = false;
   const FPS_INTERVAL = 1000 / 30; // 30 FPS target interval (~33.33ms)
   let animationId = null;
 
-  // Video settings for initial forward capture
+  // Video settings
   video.removeAttribute('loop');
   video.muted = true;
   video.playsInline = true;
 
   function updateDimensions() {
-    if (video.videoWidth > 0) {
-      if (video.videoWidth > MAX_WIDTH) {
-        targetWidth = MAX_WIDTH;
-        targetHeight = Math.round((video.videoHeight / video.videoWidth) * MAX_WIDTH);
-      } else {
-        targetWidth = video.videoWidth;
-        targetHeight = video.videoHeight;
-      }
-      if (displayCanvas) {
-        displayCanvas.width = targetWidth;
-        displayCanvas.height = targetHeight;
-      }
+    const vWidth = video.videoWidth || 1920;
+    const vHeight = video.videoHeight || 1080;
+    if (vWidth > MAX_WIDTH) {
+      targetWidth = MAX_WIDTH;
+      targetHeight = Math.round((vHeight / vWidth) * MAX_WIDTH);
+    } else {
+      targetWidth = vWidth;
+      targetHeight = vHeight;
+    }
+    if (displayCanvas) {
+      displayCanvas.width = targetWidth;
+      displayCanvas.height = targetHeight;
     }
   }
 
+  // Initialize dimensions immediately
+  if (video.readyState >= 1) {
+    updateDimensions();
+  }
   video.addEventListener('loadedmetadata', updateDimensions);
+  video.addEventListener('canplay', updateDimensions);
 
-  // Capture frame into offscreen canvas
-  function captureNextFrame() {
+  // Single guarded capture callback
+  function scheduleCapture() {
+    if (!isCapturing || isCallbackScheduled || !video) return;
+    isCallbackScheduled = true;
+
+    if ('requestVideoFrameCallback' in HTMLVideoElement.prototype) {
+      video.requestVideoFrameCallback((now, metadata) => {
+        isCallbackScheduled = false;
+        handleFrameCapture(metadata);
+      });
+    } else {
+      requestAnimationFrame(() => {
+        isCallbackScheduled = false;
+        handleFrameCapture(null);
+      });
+    }
+  }
+
+  function handleFrameCapture(metadata) {
     if (!isCapturing || !video) return;
 
+    // Check for end of playback during capture
+    if (video.duration && video.currentTime >= video.duration - 0.12) {
+      finishCaptureAndStartBoomerang();
+      return;
+    }
+
     if (video.readyState >= 2) {
-      if (video.videoWidth > 0 && targetWidth === 960 && targetHeight === 540) {
-        updateDimensions();
+      // Check for unique frame
+      let isUnique = true;
+      if (metadata && typeof metadata.presentedFrames === 'number') {
+        if (metadata.presentedFrames === lastPresentedFrame) {
+          isUnique = false;
+        } else {
+          lastPresentedFrame = metadata.presentedFrames;
+        }
+      } else {
+        if (Math.abs(video.currentTime - lastMediaTime) < 0.015) {
+          isUnique = false;
+        } else {
+          lastMediaTime = video.currentTime;
+        }
       }
 
-      const offscreen = document.createElement('canvas');
-      offscreen.width = targetWidth;
-      offscreen.height = targetHeight;
-      const offCtx = offscreen.getContext('2d');
-      offCtx.drawImage(video, 0, 0, targetWidth, targetHeight);
-      frames.push(offscreen);
+      if (isUnique) {
+        if (targetWidth === 960 && video.videoWidth > 0 && targetHeight === 540) {
+          updateDimensions();
+        }
+
+        const offscreen = document.createElement('canvas');
+        offscreen.width = targetWidth;
+        offscreen.height = targetHeight;
+        const offCtx = offscreen.getContext('2d', { alpha: false });
+        if (offCtx) {
+          offCtx.drawImage(video, 0, 0, targetWidth, targetHeight);
+          frames.push(offscreen);
+        }
+      }
     }
 
     if (isCapturing) {
-      if ('requestVideoFrameCallback' in HTMLVideoElement.prototype) {
-        video.requestVideoFrameCallback(captureNextFrame);
-      } else {
-        requestAnimationFrame(captureNextFrame);
-      }
+      scheduleCapture();
     }
   }
+
+  // Finish capture and transition smoothly into 30 FPS Boomerang
+  let isFinished = false;
+  function finishCaptureAndStartBoomerang() {
+    if (isFinished) return;
+    isFinished = true;
+    isCapturing = false;
+
+    if (frames.length > 5) {
+      isBoomerangReady = true;
+      frameIndex = frames.length - 1;
+      direction = -1;
+
+      if (displayCanvas) {
+        displayCanvas.width = targetWidth;
+        displayCanvas.height = targetHeight;
+        const ctx = displayCanvas.getContext('2d');
+        if (ctx && frames[frameIndex]) {
+          ctx.drawImage(frames[frameIndex], 0, 0, targetWidth, targetHeight);
+        }
+        displayCanvas.style.display = 'block';
+        video.style.display = 'none';
+      }
+
+      if (!userPaused) {
+        startBoomerang();
+      }
+    } else {
+      // If frames failed to capture, loop the video natively so it never freezes
+      video.loop = true;
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
+  }
+
+  // Listen to multiple indicators of video finish
+  video.addEventListener('ended', finishCaptureAndStartBoomerang);
+  video.addEventListener('timeupdate', () => {
+    if (isCapturing && video.duration && video.currentTime >= video.duration - 0.12) {
+      finishCaptureAndStartBoomerang();
+    }
+  });
 
   // 30 FPS Boomerang Render Loop
   function boomerangRenderLoop(timestamp) {
@@ -80,10 +169,10 @@ if (video && motionButton) {
 
       const ctx = displayCanvas.getContext('2d');
       if (ctx && frames[frameIndex]) {
-        ctx.clearRect(0, 0, displayCanvas.width, displayCanvas.height);
         ctx.drawImage(frames[frameIndex], 0, 0, displayCanvas.width, displayCanvas.height);
       }
 
+      // Step frame index and bounce direction
       frameIndex += direction;
       if (frameIndex >= frames.length - 1) {
         direction = -1;
@@ -112,26 +201,6 @@ if (video && motionButton) {
     updateMotionButton();
   }
 
-  // On ended event: stop capturing, switch from video to displayCanvas, run boomerang loop
-  video.addEventListener('ended', () => {
-    isCapturing = false;
-    if (frames.length > 0) {
-      isBoomerangReady = true;
-      video.style.display = 'none';
-      if (displayCanvas) {
-        displayCanvas.style.display = 'block';
-      }
-      frameIndex = frames.length - 1;
-      direction = -1;
-      if (!userPaused) {
-        startBoomerang();
-      }
-    } else {
-      video.currentTime = 0;
-      video.play().catch(() => {});
-    }
-  });
-
   function updateMotionButton() {
     const isPaused = isBoomerangReady ? !isBoomerangRunning : video.paused;
     motionButton.setAttribute('aria-pressed', String(isPaused));
@@ -146,13 +215,7 @@ if (video && motionButton) {
     } else {
       try {
         await video.play();
-        if (isCapturing) {
-          if ('requestVideoFrameCallback' in HTMLVideoElement.prototype) {
-            video.requestVideoFrameCallback(captureNextFrame);
-          } else {
-            requestAnimationFrame(captureNextFrame);
-          }
-        }
+        scheduleCapture();
       } catch (err) {}
     }
     updateMotionButton();
@@ -177,33 +240,21 @@ if (video && motionButton) {
   }
 
   video.addEventListener('play', () => {
-    if (isCapturing) {
-      if ('requestVideoFrameCallback' in HTMLVideoElement.prototype) {
-        video.requestVideoFrameCallback(captureNextFrame);
-      } else {
-        requestAnimationFrame(captureNextFrame);
-      }
-    }
+    if (isCapturing) scheduleCapture();
     updateMotionButton();
   });
   video.addEventListener('pause', updateMotionButton);
 
   motionButton.addEventListener('click', () => {
     userPaused = !userPaused;
-    if (userPaused) {
-      pauseActiveMotion();
-    } else {
-      playActiveMotion();
-    }
+    if (userPaused) pauseActiveMotion();
+    else playActiveMotion();
   });
 
   motionPreference.addEventListener('change', event => {
     userPaused = event.matches;
-    if (userPaused) {
-      pauseActiveMotion();
-    } else {
-      playActiveMotion();
-    }
+    if (userPaused) pauseActiveMotion();
+    else playActiveMotion();
   });
 
   document.addEventListener('visibilitychange', () => {
