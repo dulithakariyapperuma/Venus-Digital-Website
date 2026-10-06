@@ -1,5 +1,6 @@
 const video = document.querySelector('#planet-video');
 const motionButton = document.querySelector('.motion-toggle');
+if (video && motionButton) {
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 let userPaused = motionPreference.matches;
 function updateMotionButton() {
@@ -16,6 +17,7 @@ motionButton.addEventListener('click', () => { userPaused = !userPaused; if (use
 motionPreference.addEventListener('change', event => { userPaused = event.matches; if (userPaused) video.pause(); else playVideo(); updateMotionButton(); });
 document.addEventListener('visibilitychange', () => { if (document.hidden) video.pause(); else if (!userPaused) playVideo(); });
 updateMotionButton();
+}
 const menuButton = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#main-nav');
 function closeMenu() { nav.classList.remove('is-open'); menuButton.setAttribute('aria-expanded', 'false'); menuButton.setAttribute('aria-label', 'Open navigation'); }
