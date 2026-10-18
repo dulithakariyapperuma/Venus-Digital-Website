@@ -1,283 +1,157 @@
-// --- Hero Video Boomerang Engine ---
+// --- Hero background video ---
+// assets/venus-planet-boomerang.mp4 already plays forward then backward, so a native loop
+// gives the boomerang. (The old version kept every frame in memory, ~450 MB, which crashed phones.)
 const video = document.querySelector('#planet-video');
-const displayCanvas = document.querySelector('#planet-canvas');
 const motionButton = document.querySelector('.motion-toggle');
 
 if (video && motionButton) {
   const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
   let userPaused = motionPreference.matches;
 
-  // Boomerang State
-  const MAX_WIDTH = 960;
-  let targetWidth = 960;
-  let targetHeight = 540;
-  const frames = [];
-  let isCapturing = true;
-  let isBoomerangReady = false;
-  let isBoomerangRunning = false;
-  let frameIndex = 0;
-  let direction = -1;
-  let lastTimestamp = 0;
-  let lastPresentedFrame = -1;
-  let lastMediaTime = -1;
-  let isCallbackScheduled = false;
-  const FPS_INTERVAL = 1000 / 30; // 30 FPS target interval (~33.33ms)
-  let animationId = null;
-
-  // Video settings
-  video.removeAttribute('loop');
-  video.muted = true;
-  video.playsInline = true;
-
-  function updateDimensions() {
-    const vWidth = video.videoWidth || 1920;
-    const vHeight = video.videoHeight || 1080;
-    if (vWidth > MAX_WIDTH) {
-      targetWidth = MAX_WIDTH;
-      targetHeight = Math.round((vHeight / vWidth) * MAX_WIDTH);
-    } else {
-      targetWidth = vWidth;
-      targetHeight = vHeight;
-    }
-    if (displayCanvas) {
-      displayCanvas.width = targetWidth;
-      displayCanvas.height = targetHeight;
-    }
-  }
-
-  // Initialize dimensions immediately
-  if (video.readyState >= 1) {
-    updateDimensions();
-  }
-  video.addEventListener('loadedmetadata', updateDimensions);
-  video.addEventListener('canplay', updateDimensions);
-
-  // Single guarded capture callback
-  function scheduleCapture() {
-    if (!isCapturing || isCallbackScheduled || !video) return;
-    isCallbackScheduled = true;
-
-    if ('requestVideoFrameCallback' in HTMLVideoElement.prototype) {
-      video.requestVideoFrameCallback((now, metadata) => {
-        isCallbackScheduled = false;
-        handleFrameCapture(metadata);
-      });
-    } else {
-      requestAnimationFrame(() => {
-        isCallbackScheduled = false;
-        handleFrameCapture(null);
-      });
-    }
-  }
-
-  function handleFrameCapture(metadata) {
-    if (!isCapturing || !video) return;
-
-    // Check for end of playback during capture
-    if (video.duration && video.currentTime >= video.duration - 0.12) {
-      finishCaptureAndStartBoomerang();
-      return;
-    }
-
-    if (video.readyState >= 2) {
-      // Check for unique frame
-      let isUnique = true;
-      if (metadata && typeof metadata.presentedFrames === 'number') {
-        if (metadata.presentedFrames === lastPresentedFrame) {
-          isUnique = false;
-        } else {
-          lastPresentedFrame = metadata.presentedFrames;
-        }
-      } else {
-        if (Math.abs(video.currentTime - lastMediaTime) < 0.015) {
-          isUnique = false;
-        } else {
-          lastMediaTime = video.currentTime;
-        }
-      }
-
-      if (isUnique) {
-        if (targetWidth === 960 && video.videoWidth > 0 && targetHeight === 540) {
-          updateDimensions();
-        }
-
-        const offscreen = document.createElement('canvas');
-        offscreen.width = targetWidth;
-        offscreen.height = targetHeight;
-        const offCtx = offscreen.getContext('2d', { alpha: false });
-        if (offCtx) {
-          offCtx.drawImage(video, 0, 0, targetWidth, targetHeight);
-          frames.push(offscreen);
-        }
-      }
-    }
-
-    if (isCapturing) {
-      scheduleCapture();
-    }
-  }
-
-  // Finish capture and transition smoothly into 30 FPS Boomerang
-  let isFinished = false;
-  function finishCaptureAndStartBoomerang() {
-    if (isFinished) return;
-    isFinished = true;
-    isCapturing = false;
-
-    if (frames.length > 5) {
-      isBoomerangReady = true;
-      frameIndex = frames.length - 1;
-      direction = -1;
-
-      if (displayCanvas) {
-        displayCanvas.width = targetWidth;
-        displayCanvas.height = targetHeight;
-        const ctx = displayCanvas.getContext('2d');
-        if (ctx && frames[frameIndex]) {
-          ctx.drawImage(frames[frameIndex], 0, 0, targetWidth, targetHeight);
-        }
-        displayCanvas.style.display = 'block';
-        video.style.display = 'none';
-      }
-
-      if (!userPaused) {
-        startBoomerang();
-      }
-    } else {
-      // If frames failed to capture, loop the video natively so it never freezes
-      video.loop = true;
-      video.currentTime = 0;
-      video.play().catch(() => {});
-    }
-  }
-
-  // Listen to multiple indicators of video finish
-  video.addEventListener('ended', finishCaptureAndStartBoomerang);
-  video.addEventListener('timeupdate', () => {
-    if (isCapturing && video.duration && video.currentTime >= video.duration - 0.12) {
-      finishCaptureAndStartBoomerang();
-    }
-  });
-
-  // 30 FPS Boomerang Render Loop
-  function boomerangRenderLoop(timestamp) {
-    if (!isBoomerangRunning || frames.length === 0 || !displayCanvas) return;
-
-    const elapsed = timestamp - lastTimestamp;
-    if (elapsed >= FPS_INTERVAL) {
-      lastTimestamp = timestamp - (elapsed % FPS_INTERVAL);
-
-      const ctx = displayCanvas.getContext('2d');
-      if (ctx && frames[frameIndex]) {
-        ctx.drawImage(frames[frameIndex], 0, 0, displayCanvas.width, displayCanvas.height);
-      }
-
-      // Step frame index and bounce direction
-      frameIndex += direction;
-      if (frameIndex >= frames.length - 1) {
-        direction = -1;
-        frameIndex = frames.length - 1;
-      } else if (frameIndex <= 0) {
-        direction = 1;
-        frameIndex = 0;
-      }
-    }
-
-    animationId = requestAnimationFrame(boomerangRenderLoop);
-  }
-
-  function startBoomerang() {
-    if (frames.length === 0) return;
-    isBoomerangRunning = true;
-    lastTimestamp = performance.now();
-    cancelAnimationFrame(animationId);
-    animationId = requestAnimationFrame(boomerangRenderLoop);
-    updateMotionButton();
-  }
-
-  function pauseBoomerang() {
-    isBoomerangRunning = false;
-    cancelAnimationFrame(animationId);
-    updateMotionButton();
-  }
-
   function updateMotionButton() {
-    const isPaused = isBoomerangReady ? !isBoomerangRunning : video.paused;
+    const isPaused = video.paused;
     motionButton.setAttribute('aria-pressed', String(isPaused));
     motionButton.setAttribute('aria-label', isPaused ? 'Play background animation' : 'Pause background animation');
     const label = motionButton.querySelector('.motion-label');
     if (label) label.textContent = isPaused ? 'Play motion' : 'Pause motion';
   }
 
-  async function playActiveMotion() {
-    if (isBoomerangReady) {
-      startBoomerang();
-    } else {
-      try {
-        await video.play();
-        scheduleCapture();
-      } catch (err) {}
-    }
-    updateMotionButton();
-  }
+  function playMotion() { video.play().catch(() => {}); }
 
-  function pauseActiveMotion() {
-    if (isBoomerangReady) {
-      pauseBoomerang();
-    } else {
-      video.pause();
-    }
-    updateMotionButton();
-  }
-
-  // Initial startup
   if (userPaused) {
     video.removeAttribute('autoplay');
     video.pause();
-    updateMotionButton();
   } else {
-    playActiveMotion();
+    playMotion();
   }
 
-  video.addEventListener('play', () => {
-    if (isCapturing) scheduleCapture();
-    updateMotionButton();
-  });
+  video.addEventListener('play', updateMotionButton);
   video.addEventListener('pause', updateMotionButton);
 
   motionButton.addEventListener('click', () => {
     userPaused = !userPaused;
-    if (userPaused) pauseActiveMotion();
-    else playActiveMotion();
+    if (userPaused) video.pause();
+    else playMotion();
   });
 
   motionPreference.addEventListener('change', event => {
     userPaused = event.matches;
-    if (userPaused) pauseActiveMotion();
-    else playActiveMotion();
+    if (userPaused) video.pause();
+    else playMotion();
   });
 
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      if (isBoomerangReady) pauseBoomerang();
-      else video.pause();
-    } else if (!userPaused) {
-      playActiveMotion();
-    }
+    if (document.hidden) video.pause();
+    else if (!userPaused) playMotion();
   });
 
   updateMotionButton();
 }
 const menuButton = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#main-nav');
-function closeMenu() { nav.classList.remove('is-open'); menuButton.setAttribute('aria-expanded', 'false'); menuButton.setAttribute('aria-label', 'Open navigation'); }
-menuButton.addEventListener('click', () => { const open = menuButton.getAttribute('aria-expanded') !== 'true'; nav.classList.toggle('is-open', open); menuButton.setAttribute('aria-expanded', String(open)); menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation'); });
-nav.querySelectorAll('a,button').forEach(link => link.addEventListener('click', closeMenu));
-document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+if (menuButton && nav) {
+  function closeMenu() { nav.classList.remove('is-open'); menuButton.setAttribute('aria-expanded', 'false'); menuButton.setAttribute('aria-label', 'Open navigation'); }
+  menuButton.addEventListener('click', () => { const open = menuButton.getAttribute('aria-expanded') !== 'true'; nav.classList.toggle('is-open', open); menuButton.setAttribute('aria-expanded', String(open)); menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation'); });
+  nav.querySelectorAll('a,button').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+}
+// --- Pricing carousel: scrolls slowly on its own and loops. Hover, touch or keyboard focus pauses it;
+// swiping, the arrows and the pause button all work. People who prefer reduced motion start paused. ---
+const priceViewport = document.querySelector('.price-viewport');
+if (priceViewport) {
+  const track = priceViewport.querySelector('.price-track');
+  const originals = [...track.children];
+  // A second copy of the tiles makes the loop seamless; screen readers and Tab skip the copy.
+  originals.forEach(card => {
+    const copy = card.cloneNode(true);
+    copy.setAttribute('aria-hidden', 'true');
+    copy.querySelectorAll('button, a').forEach(el => el.setAttribute('tabindex', '-1'));
+    track.appendChild(copy);
+  });
+  const toggle = document.querySelector('.price-toggle');
+  const SPEED = 0.035; // pixels per millisecond (about 35 px a second)
+  let paused = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let hovering = false, holdUntil = 0, pos = 0, last = 0, running = false;
+  const loopWidth = () => track.children[originals.length].offsetLeft - track.children[0].offsetLeft;
+  const step = () => originals[0].getBoundingClientRect().width + 22;
+  const hold = ms => { holdUntil = performance.now() + ms; };
+
+  function frame(t) {
+    if (!running) return;
+    const dt = last ? Math.min(t - last, 50) : 0;
+    last = t;
+    const w = loopWidth();
+    if (!paused && !hovering && t > holdUntil) {
+      pos += dt * SPEED;
+      if (pos >= w) pos -= w;
+      priceViewport.scrollLeft = pos;
+    } else {
+      pos = priceViewport.scrollLeft;
+      if (t > holdUntil && pos >= w) { pos -= w; priceViewport.scrollLeft = pos; }
+    }
+    requestAnimationFrame(frame);
+  }
+  const start = () => { if (!running) { running = true; last = 0; requestAnimationFrame(frame); } };
+  const stop = () => { running = false; };
+
+  function setPaused(value) {
+    paused = value;
+    toggle.setAttribute('aria-pressed', String(paused));
+    toggle.setAttribute('aria-label', paused ? 'Play the pricing carousel' : 'Pause the pricing carousel');
+  }
+  setPaused(paused);
+  toggle.addEventListener('click', () => setPaused(!paused));
+
+  function nudge(direction) {
+    hold(4000);
+    let x = priceViewport.scrollLeft;
+    const w = loopWidth();
+    if (direction < 0 && x < step()) { x += w; priceViewport.scrollLeft = x; }
+    if (direction > 0 && x >= w) { x -= w; priceViewport.scrollLeft = x; }
+    priceViewport.scrollTo({ left: x + direction * step(), behavior: 'smooth' });
+  }
+  document.querySelector('.price-prev').addEventListener('click', () => nudge(-1));
+  document.querySelector('.price-next').addEventListener('click', () => nudge(1));
+
+  priceViewport.addEventListener('mouseenter', () => { hovering = true; });
+  priceViewport.addEventListener('mouseleave', () => { hovering = false; hold(600); });
+  priceViewport.addEventListener('pointerdown', () => hold(4000));
+  priceViewport.addEventListener('touchstart', () => hold(4000), { passive: true });
+  priceViewport.addEventListener('wheel', () => hold(2500), { passive: true });
+  priceViewport.addEventListener('focusin', () => { hovering = true; });
+  priceViewport.addEventListener('focusout', () => { hovering = false; });
+  priceViewport.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); nudge(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); nudge(-1); }
+  });
+
+  // Only animate while the carousel is on screen and the tab is visible.
+  let inView = !('IntersectionObserver' in window);
+  if (!inView) {
+    new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      if (inView) start(); else stop();
+    }).observe(priceViewport);
+  } else {
+    start();
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+    else if (inView) start();
+  });
+}
+
+// "Book a Call": the free Google Calendar booking page set in booking.js.
+// Until that link is set (or if it isn't a valid https link), the buttons open an email instead.
+const BOOKING_URL = (window.VENUS_BOOKING_URL || '').trim();
+const BOOKING_EMAIL = 'mailto:hello@venusdigital.org?subject=' + encodeURIComponent('Book a call with Venus Digital');
+function isHttpsUrl(value) {
+  try { return new URL(value).protocol === 'https:'; } catch { return false; }
+}
 document.querySelectorAll('[data-contact]').forEach(button => button.addEventListener('click', (e) => {
   e.preventDefault();
-  if (window.Calendly) {
-    window.Calendly.initPopupWidget({url: 'https://calendly.com/send2sandaras/30min'});
-  }
+  if (isHttpsUrl(BOOKING_URL)) window.open(BOOKING_URL, '_blank', 'noopener');
+  else window.location.href = BOOKING_EMAIL;
 }));
-document.querySelector('#year').textContent = new Date().getFullYear();
+const yearEl = document.querySelector('#year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();

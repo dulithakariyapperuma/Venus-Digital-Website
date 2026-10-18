@@ -1337,3 +1337,49 @@ details[open] .expand-mark {
     padding-top: 110px;
   }
 }
+
+/* Medical page menu link: shorter label where the header is tight */
+@media(min-width:701px) and (max-width:930px){.nav-extra{display:none}}
+
+/* Footer: legal name, business address and email (banks and Stripe check these) */
+.footer-entity{line-height:1.7;text-align:right}.footer-entity a{color:#c5ad91}.footer-entity a:hover{color:#f4d4af}
+@media(max-width:700px){.footer-entity{text-align:left}}
+
+/* Pricing carousel: glass tiles that scroll on their own (Stripe asks for visible prices) */
+.pricing-carousel-section{max-width:1380px;margin:0 auto;padding:100px 6% 90px}
+.price-header{margin-bottom:8px}
+.price-header .bento-header-wrap{margin-bottom:0}
+.price-toggle .i-play,.price-toggle[aria-pressed=true] .i-pause{display:none}
+.price-toggle[aria-pressed=true] .i-play{display:block}
+.price-viewport{overflow-x:auto;scroll-behavior:auto;scrollbar-width:none;-ms-overflow-style:none;padding:22px 0 46px;margin:0 -6px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);cursor:grab}
+.price-viewport::-webkit-scrollbar{display:none}
+.price-viewport:focus-visible{outline:2px solid #f0c492;outline-offset:2px;border-radius:30px}
+.price-track{display:flex;gap:22px;width:max-content;padding:0 6px}
+.price-card{position:relative;display:flex;flex-direction:column;width:min(330px,80vw);padding:30px 28px 26px;border-radius:28px;
+  background:linear-gradient(160deg,rgba(22,30,36,.72) 0%,rgba(8,12,15,.92) 100%);border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 14px 40px -12px rgba(0,0,0,.65),inset 0 1px 1px 0 rgba(255,255,255,.2);
+  transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease}
+.price-card:hover{transform:translateY(-6px);border-color:rgba(213,161,108,.5);box-shadow:0 24px 54px -14px rgba(0,0,0,.85),0 0 32px -6px rgba(213,161,108,.22),inset 0 1px 2px 0 rgba(255,255,255,.35)}
+.price-card.is-featured{border-color:rgba(213,161,108,.55);background:radial-gradient(120% 70% at 50% 0%,rgba(213,161,108,.16),transparent 60%),linear-gradient(160deg,rgba(26,30,30,.8) 0%,rgba(10,12,14,.94) 100%)}
+.price-card-top{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:26px}
+.price-pill{font-family:var(--condensed);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);background:rgba(213,161,108,.12);border:1px solid rgba(213,161,108,.3);padding:4px 13px;border-radius:9999px}
+.price-flag{font-family:var(--condensed);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#20160d;background:linear-gradient(105deg,#b87837 0%,#efc183 53%,#c89153 100%);padding:4px 12px;border-radius:9999px}
+.price-card h3{margin-top:20px;font-size:23px;font-weight:400;line-height:1.2}
+.price-sub{margin:6px 0 0;color:var(--muted);font-size:14.5px}
+.price-amount{display:flex;align-items:baseline;gap:8px;margin:22px 0 20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.price-amount span{font-family:var(--condensed);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#a7a6a0}
+.price-amount strong{font-family:var(--condensed);font-size:46px;font-weight:500;line-height:1;letter-spacing:.01em;background:linear-gradient(135deg,#ffffff 0%,#edd3b2 45%,#d5a16c 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.price-amount em{font-style:normal;font-family:var(--condensed);font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#c4b49d}
+.price-includes{list-style:none;margin:0 0 26px;padding:0;display:flex;flex-direction:column;gap:12px;flex:1}
+.price-includes li{display:flex;align-items:flex-start;gap:11px;font-size:14.5px;line-height:1.45;color:#e2e4e0}
+.price-includes svg{width:17px;height:17px;flex:none;margin-top:1px;color:var(--gold)}
+.price-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:13px 20px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:var(--text);font-family:var(--condensed);font-size:16px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:background .25s,border-color .25s,color .25s}
+.price-btn svg{width:18px;height:18px;transition:transform .25s}
+.price-btn:hover{background:var(--gold);border-color:var(--gold);color:#20160d}
+.price-btn:hover svg{transform:translateX(4px)}
+.price-card.is-featured .price-btn{background:linear-gradient(105deg,#b87837 0%,#efc183 53%,#c89153 100%);border-color:transparent;color:#20160d}
+.price-note{margin:0;color:var(--muted);font-size:14px;text-align:center}
+.price-note a{color:var(--gold);border-bottom:1px solid #9a7654}
+@media(max-width:700px){.pricing-carousel-section{padding:66px 6% 60px}.price-header{flex-direction:column;align-items:flex-start;gap:20px}.price-card{padding:26px 22px 22px}.price-amount strong{font-size:40px}}
+@media(prefers-reduced-motion:reduce){.price-card,.price-btn,.price-btn svg{transition:none}}

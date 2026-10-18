@@ -14,8 +14,6 @@
   <script src="booking.js" defer></script>
   <script src="app.js" defer></script>
   <script src="testimonials.js" defer></script>
-  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -25,6 +23,7 @@
     <nav id="main-nav" aria-label="Main navigation">
       <a href="#services">Services</a>
       <a href="#solutions">AI solutions</a>
+      <a href="medical/">Medical<span class="nav-extra"> animation</span></a>
       <a href="#approach">Our approach</a>
       <a href="#testimonials">Testimonials</a>
       <button class="button button-outline header-cta" data-contact>Book a Call</button>
@@ -33,10 +32,9 @@
   <main id="main">
     <section class="hero" id="home" aria-labelledby="hero-title">
       <div class="hero-media" aria-hidden="true">
-        <video id="planet-video" autoplay muted playsinline preload="auto" poster="assets/venus-poster.jpg">
-          <source src="assets/venus-planet-clean.mp4" type="video/mp4">
+        <video id="planet-video" autoplay muted loop playsinline preload="auto" poster="assets/venus-poster.jpg">
+          <source src="assets/venus-planet-boomerang.mp4" type="video/mp4">
         </video>
-        <canvas id="planet-canvas" style="display:none;"></canvas>
       </div>
       <div class="hero-shade" aria-hidden="true"></div>
       <div class="hero-content">
@@ -230,11 +228,86 @@
       <ol class="process"><li><span>01</span><div><h3>Understand your world</h3><p>We start with your goals, your audience, and the work taking up your time.</p></div></li><li><span>02</span><div><h3>Create your system</h3><p>We develop the content, channels, and AI workflows your business needs.</p></div></li><li><span>03</span><div><h3>Launch, learn, improve</h3><p>We put it into practice, review what’s working, and keep refining.</p></div></li></ol>
     </section>
     <!-- Homepage Testimonials: Sliding Video Reel -->
+    <section class="pricing-carousel-section" id="pricing" aria-labelledby="pricing-title">
+      <div class="slider-header-row price-header">
+        <div class="bento-header-wrap">
+          <div class="motion-badge"><span class="motion-badge-dot"></span><span class="motion-badge-text">04 / Pricing · What you get</span></div>
+          <h2 id="pricing-title">Simple starting prices.<br><span class="motion-gradient-text">A fixed quote for every project.</span></h2>
+          <p>Pick a starting point. Every tile shows exactly what’s included, and bigger or custom projects get a fixed quote before any work starts.</p>
+        </div>
+        <div class="slider-controls" aria-label="Pricing carousel controls">
+          <button class="slider-arrow-btn price-prev" type="button" aria-label="Previous plan"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="slider-arrow-btn price-toggle" type="button" aria-pressed="false" aria-label="Pause the pricing carousel"><svg class="i-pause" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg><svg class="i-play" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+          <button class="slider-arrow-btn price-next" type="button" aria-label="Next plan"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+        </div>
+      </div>
+      <div class="price-viewport" tabindex="0" aria-label="Pricing plans. Scrolls on its own; hover or touch to stop.">
+        <div class="price-track">
+          <article class="price-card">
+            <div class="price-card-top"><span class="price-pill">Video</span></div>
+            <h3>Short-form video editing</h3>
+            <p class="price-sub">Reels, TikTok and YouTube Shorts</p>
+            <div class="price-amount"><span>from</span><strong>$40</strong><em>per video</em></div>
+            <ul class="price-includes"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Your raw clip edited into a scroll-stopping short</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Captions and on-screen text</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Music and sound effects</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Vertical 9:16 export, ready to post</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>1 round of changes</span></li></ul>
+            <button class="price-btn" type="button" data-contact><span>Book a Call</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </article>
+          <article class="price-card">
+            <div class="price-card-top"><span class="price-pill">Monthly</span></div>
+            <h3>Content package</h3>
+            <p class="price-sub">Fresh short videos every month</p>
+            <div class="price-amount"><span>from</span><strong>$450</strong><em>per month</em></div>
+            <ul class="price-includes"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>12 short videos a month</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Hooks and scripts written for you</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Captions, music and cover images</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>A monthly content plan</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Ready-to-post files</span></li></ul>
+            <button class="price-btn" type="button" data-contact><span>Book a Call</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </article>
+          <article class="price-card">
+            <div class="price-card-top"><span class="price-pill">Monthly</span></div>
+            <h3>Social media management</h3>
+            <p class="price-sub">We run 2 of your platforms</p>
+            <div class="price-amount"><span>from</span><strong>$500</strong><em>per month</em></div>
+            <ul class="price-includes"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Posting and scheduling on 2 platforms</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Captions and hashtags written for you</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>A consistent look across your feed</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Monthly performance report</span></li></ul>
+            <button class="price-btn" type="button" data-contact><span>Book a Call</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </article>
+          <article class="price-card is-featured">
+            <div class="price-card-top"><span class="price-pill">Monthly</span><span class="price-flag">Best value</span></div>
+            <h3>Content + social bundle</h3>
+            <p class="price-sub">Made, posted and tracked for you</p>
+            <div class="price-amount"><span>from</span><strong>$850</strong><em>per month</em></div>
+            <ul class="price-includes"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>12 short videos a month</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Posted on 2 platforms for you</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Captions, hashtags and scheduling</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Monthly plan and performance report</span></li></ul>
+            <button class="price-btn" type="button" data-contact><span>Book a Call</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </article>
+          <article class="price-card">
+            <div class="price-card-top"><span class="price-pill">AI</span></div>
+            <h3>AI chatbot for your website</h3>
+            <p class="price-sub">Answers questions while you sleep</p>
+            <div class="price-amount"><span>from</span><strong>$600</strong><em>one-time setup</em></div>
+            <ul class="price-includes"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>A chatbot on your website</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Trained on your services and FAQs</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>New enquiries sent to your email</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Setup and testing included</span></li></ul>
+            <button class="price-btn" type="button" data-contact><span>Book a Call</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </article>
+          <article class="price-card">
+            <div class="price-card-top"><span class="price-pill">AI</span></div>
+            <h3>AI receptionist</h3>
+            <p class="price-sub">Never miss a call</p>
+            <div class="price-amount"><span>from</span><strong>$900</strong><em>one-time setup</em></div>
+            <ul class="price-includes"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Answers your calls 24/7</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Handles FAQs and books appointments</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Call summaries sent to you</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Phone and AI usage billed separately at cost</span></li></ul>
+            <button class="price-btn" type="button" data-contact><span>Book a Call</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </article>
+          <article class="price-card">
+            <div class="price-card-top"><span class="price-pill">Animation</span></div>
+            <h3>Animated explainer or medical animation</h3>
+            <p class="price-sub">A 60-second animated video</p>
+            <div class="price-amount"><span>from</span><strong>$500</strong><em>per video</em></div>
+            <ul class="price-includes"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Script and storyboard</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>60-second animation in 1080p</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Professional voiceover and music</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Medical and product accuracy checked</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Captions for silent autoplay</span></li></ul>
+            <button class="price-btn" type="button" data-contact><span>Book a Call</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </article>
+        </div>
+      </div>
+      <p class="price-note">Prices in US dollars. Payment by invoice. See our <a href="terms.html">terms and refund policy</a>.</p>
+    </section>
     <section class="section-wrap" id="testimonials" aria-labelledby="home-video-testimonials-title">
       <div class="slider-header-row">
         <div>
           <p class="eyebrow">Client Success Stories</p>
-          <h2 id="home-video-testimonials-title">Don't Just Take Our Word, Experience the Success of Countless Clients</h2>
+          <h2 id="home-video-testimonials-title">Don't Just Take Our Word, Hear It From Our Clients</h2>
           <p style="color:var(--muted);margin:8px 0 0;">Watch direct video feedback from founders, creators, and healthcare leaders scaling with Venus Digital.</p>
         </div>
         <div class="slider-controls" aria-label="Video slider controls">
@@ -292,7 +365,6 @@
           <div class="sliding-video-frame">
             <video preload="metadata" playsinline controls aria-label="George Carvalho client video">
               <source src="assets/videos/video-3.mp4" type="video/mp4">
-              <source src="assets/videos/recommendation%203.mp4" type="video/mp4">
               Your browser does not support HTML5 video.
             </video>
             <div class="video-play-overlay" aria-label="Play George Carvalho video">
@@ -312,7 +384,6 @@
           <div class="sliding-video-frame">
             <video preload="metadata" playsinline controls aria-label="Daniel Bordenave client video">
               <source src="assets/videos/video-4.mp4" type="video/mp4">
-              <source src="assets/videos/recommendation%204.mp4" type="video/mp4">
               Your browser does not support HTML5 video.
             </video>
             <div class="video-play-overlay" aria-label="Play Daniel Bordenave video">
@@ -333,7 +404,7 @@
         <div style="display:flex;align-items:center;gap:18px;">
           <div class="quote-icon-badge" aria-hidden="true">“</div>
           <div>
-            <p class="eyebrow" style="margin:0 0 4px;">Verified Executive Reviews</p>
+            <p class="eyebrow" style="margin:0 0 4px;">Client Reviews</p>
             <h2 style="margin:0;">What Our Partners Experience</h2>
           </div>
         </div>
@@ -405,44 +476,6 @@
             </div>
           </div>
         </article>
-
-        <!-- Review 4 -->
-        <article class="sliding-text-item">
-          <div>
-            <div class="review-badge-row">
-              <span class="service-pill">AI Content Automation</span>
-              <span class="curved-stars">★★★★★</span>
-            </div>
-            <h3 class="sliding-headline">"Turnaround cut from 14 days to 48 hours"</h3>
-            <p class="sliding-body">“Venus Digital completely transformed our content pipeline. Their custom AI automation cut our production turnaround from two weeks to under 48 hours, while our organic engagement on LinkedIn and Instagram grew by 240% in just 90 days.”</p>
-          </div>
-          <div class="sliding-author-row">
-            <div class="sliding-avatar">MV</div>
-            <div class="sliding-author-meta">
-              <h4>Marcus Vance</h4>
-              <p>CMO <span>@OmniScale Health</span> · Austin, TX</p>
-            </div>
-          </div>
-        </article>
-
-        <!-- Review 5 -->
-        <article class="sliding-text-item">
-          <div>
-            <div class="review-badge-row">
-              <span class="service-pill">AI Reception &amp; Booking</span>
-              <span class="curved-stars">★★★★★</span>
-            </div>
-            <h3 class="sliding-headline">"Captured $380k in after-hours pipeline"</h3>
-            <p class="sliding-body">“The AI receptionist and automated lead routing system handles hundreds of monthly inbound inquiries without skipping a beat. We captured over $380k in new pipeline that previously went cold after hours. An exceptional partnership.”</p>
-          </div>
-          <div class="sliding-author-row">
-            <div class="sliding-avatar">ER</div>
-            <div class="sliding-author-meta">
-              <h4>Elena Rostova</h4>
-              <p>VP of Growth <span>@Apex Peak Financial</span> · New York, NY</p>
-            </div>
-          </div>
-        </article>
       </div>
 
       <div style="display: flex; justify-content: center; margin-top: 48px;">
@@ -468,13 +501,13 @@
   </main>
   <footer class="site-footer">
     <a class="brand" href="#home">VENUS DIGITAL</a>
-    <p>Content marketing &amp; AI automation</p>
+    <p>Content marketing, AI automation &amp; medical animation</p>
     <div class="footer-legal-links">
       <a href="privacy.html">Privacy Policy</a>
       <span class="footer-legal-dot">·</span>
       <a href="terms.html">Terms &amp; Conditions</a>
     </div>
-    <span>© <span id="year">2026</span> Venus Digital LLC</span>
+    <span class="footer-entity">© <span id="year">2026</span> Venus Digital LLC<br>30 N Gould St, Ste 26514, Sheridan, WY 82801<br><a href="mailto:hello@venusdigital.org">hello@venusdigital.org</a></span>
   </footer>
 </body>
 </html>
