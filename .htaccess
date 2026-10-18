@@ -1,0 +1,18 @@
+# Hostinger deploys this whole repository into public_html, but the website lives in dist/.
+# These rules make dist/ the site's home and keep the repository's own files private.
+# (Security headers and the www / old-/dist/ redirects are in dist/.htaccess.)
+
+RewriteEngine On
+
+# Hide files and folders starting with a dot (.git, .gitignore, .openai...), except /.well-known/ (needed for SSL).
+RewriteRule "(^|/)\.(?!well-known/)" - [R=404,L]
+
+# Folder addresses without the final slash (/medical -> /medical/), so "/dist" never shows up.
+RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{DOCUMENT_ROOT}/dist%{REQUEST_URI} -d
+RewriteRule ^ %{REQUEST_URI}/ [R=301,L]
+
+# Serve everything from dist/ (venusdigital.org/medical/ -> dist/medical/).
+RewriteCond %{REQUEST_URI} !^/dist/
+RewriteCond %{REQUEST_URI} !^/\.well-known/
+RewriteRule ^(.*)$ dist/$1 [L]

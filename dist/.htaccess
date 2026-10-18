@@ -2,11 +2,18 @@
 # If public_html already has a .htaccess, keep its lines and paste these below them.
 # Hostinger already redirects http:// to https://, so there's no HTTPS rule here (adding one can cause a redirect loop).
 
-# --- One address for the site: www.venusdigital.org -> venusdigital.org ---
+# --- One address for the site ---
+# Uses the address the visitor typed (THE_REQUEST), so it works whether this folder is the site root
+# or sits in public_html/dist/ behind the repository's root .htaccess.
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # Old /dist/... addresses -> the clean address.
+  RewriteCond %{THE_REQUEST} \s/dist/([^\s?]*) [NC]
+  RewriteRule ^ https://venusdigital.org/%1 [R=301,L]
+  # www.venusdigital.org -> venusdigital.org
   RewriteCond %{HTTP_HOST} ^www\.venusdigital\.org$ [NC]
-  RewriteRule ^ https://venusdigital.org%{REQUEST_URI} [R=301,L]
+  RewriteCond %{THE_REQUEST} \s([^\s?]*)
+  RewriteRule ^ https://venusdigital.org%1 [R=301,L]
 </IfModule>
 
 # --- Hide files and folders whose names start with a dot (.git, .env, .DS_Store...) ---
