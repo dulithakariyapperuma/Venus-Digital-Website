@@ -1,0 +1,33 @@
+# Venus Digital: security settings for Hostinger (upload into public_html).
+# If public_html already has a .htaccess, keep its lines and paste these below them.
+# Hostinger already redirects http:// to https://, so there's no HTTPS rule here (adding one can cause a redirect loop).
+
+# --- One address for the site: www.venusdigital.org -> venusdigital.org ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.venusdigital\.org$ [NC]
+  RewriteRule ^ https://venusdigital.org%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# --- Hide files and folders whose names start with a dot (.git, .env, .DS_Store...) ---
+# /.well-known/ stays open because the SSL certificate renewal needs it.
+RedirectMatch 404 "/\.(?!well-known/)"
+
+<IfModule mod_headers.c>
+  # Browsers must use HTTPS for this site for the next year.
+  Header always set Strict-Transport-Security "max-age=31536000"
+  # Other websites can't show your pages inside a frame (stops click-jacking tricks).
+  Header always set X-Frame-Options "SAMEORIGIN"
+  # Browsers must trust the file types the server sends.
+  Header always set X-Content-Type-Options "nosniff"
+  # Other sites only see "venusdigital.org" when visitors follow a link, never the full page address.
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  # The site never needs the camera, microphone, location, payments or USB.
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  # Pop-ups opened by the site (Calendly) can't reach back into the page.
+  Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+  # Content-Security-Policy: the page may only load code, fonts, frames and media from these places.
+  # If you add a new outside service (a chat widget, analytics, a new video host), add its address here,
+  # or it will be blocked.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://assets.calendly.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://assets.calendly.com; media-src 'self'; frame-src https://calendly.com https://player.vimeo.com https://www.youtube-nocookie.com https://www.youtube.com; connect-src 'self' https://calendly.com https://assets.calendly.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+</IfModule>

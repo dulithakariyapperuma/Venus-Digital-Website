@@ -115,7 +115,6 @@
       iframe.src = src;
       iframe.title = meta.title;
       iframe.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media';
-      iframe.allowFullscreen = true;
       iframe.referrerPolicy = 'strict-origin-when-cross-origin';
       frame.append(iframe);
     } else {
