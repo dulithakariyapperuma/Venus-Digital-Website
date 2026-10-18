@@ -106,7 +106,9 @@
 
   function openFilm(key) {
     let k = key;
-    if (k === 'showreel' && !embedUrl(links.showreel)) k = 'procedures';
+    if (k === 'showreel' && !embedUrl(links.showreel)) {
+      k = ['procedures', 'oxiwear', 'rewalk', 'flow', 'biobutton'].find((f) => embedUrl(links[f])) || 'procedures';
+    }
     const meta = FILMS[k];
     const src = embedUrl(links[k]);
     frame.replaceChildren();
