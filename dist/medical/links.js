@@ -17,7 +17,7 @@
 window.VIDEO_LINKS = {
   showreel: "", // Optional. A dedicated showreel. If empty, the button plays the first film below that has a link.
   oxiwear: "https://youtu.be/_IngFx8eWQ8", // out/pf01_oxiwear_portfolio.mp4
-  procedures: "", // out/create-surgical-animation-and-medical-procedure-videos.mp4 (P2)
+  procedures: "https://youtu.be/6GfD5oK4eFw", // out/create-surgical-animation-and-medical-procedure-videos.mp4 (P2)
   flow: "https://youtu.be/NSpf_D9i_0U", // out/pf03_flow_portfolio.mp4
   biobutton: "https://youtu.be/66p6MA0Nd3U", // out/pf04_biobutton_portfolio.mp4
   rewalk: "https://youtu.be/E5_yUqwihTc", // out/pf05_rewalk_portfolio.mp4
