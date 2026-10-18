@@ -24,10 +24,10 @@ RedirectMatch 404 "/\.(?!well-known/)"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   # The site never needs the camera, microphone, location, payments or USB.
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-  # Pop-ups opened by the site (Calendly) can't reach back into the page.
+  # Pages the site opens in a new tab (like the booking page) can't reach back into it.
   Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
   # Content-Security-Policy: the page may only load code, fonts, frames and media from these places.
   # If you add a new outside service (a chat widget, analytics, a new video host), add its address here,
   # or it will be blocked.
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://assets.calendly.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://assets.calendly.com; media-src 'self'; frame-src https://calendly.com https://player.vimeo.com https://www.youtube-nocookie.com https://www.youtube.com; connect-src 'self' https://calendly.com https://assets.calendly.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; frame-src https://player.vimeo.com https://www.youtube-nocookie.com https://www.youtube.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
 </IfModule>

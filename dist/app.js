@@ -55,15 +55,17 @@ if (menuButton && nav) {
   nav.querySelectorAll('a,button').forEach(link => link.addEventListener('click', closeMenu));
   document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
 }
-const CALENDLY_URL = 'https://calendly.com/send2sandaras/30min';
+// "Book a Call": the free Google Calendar booking page set in booking.js.
+// Until that link is set (or if it isn't a valid https link), the buttons open an email instead.
+const BOOKING_URL = (window.VENUS_BOOKING_URL || '').trim();
+const BOOKING_EMAIL = 'mailto:hello@venusdigital.org?subject=' + encodeURIComponent('Book a call with Venus Digital');
+function isHttpsUrl(value) {
+  try { return new URL(value).protocol === 'https:'; } catch { return false; }
+}
 document.querySelectorAll('[data-contact]').forEach(button => button.addEventListener('click', (e) => {
   e.preventDefault();
-  if (window.Calendly) {
-    window.Calendly.initPopupWidget({url: CALENDLY_URL});
-  } else {
-    // Calendly's script didn't load (blocked or offline): open the booking page instead.
-    window.open(CALENDLY_URL, '_blank', 'noopener');
-  }
+  if (isHttpsUrl(BOOKING_URL)) window.open(BOOKING_URL, '_blank', 'noopener');
+  else window.location.href = BOOKING_EMAIL;
 }));
 const yearEl = document.querySelector('#year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();

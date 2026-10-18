@@ -199,5 +199,16 @@
     });
   }
 
+  // "Book a 30-min call": the Google Calendar booking page set in ../booking.js (shared with the main site).
+  // The button stays hidden until that link is set; "Email me" works either way.
+  const bookingUrl = String(window.VENUS_BOOKING_URL || '').trim();
+  const bookingBtn = document.querySelector('[data-booking]');
+  if (bookingBtn && /^https:\/\//.test(bookingUrl)) {
+    bookingBtn.href = bookingUrl;
+    bookingBtn.target = '_blank';
+    bookingBtn.rel = 'noopener';
+    bookingBtn.hidden = false;
+  }
+
   document.getElementById('year').textContent = String(new Date().getFullYear());
 })();

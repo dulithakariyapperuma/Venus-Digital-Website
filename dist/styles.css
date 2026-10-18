@@ -1340,3 +1340,7 @@ details[open] .expand-mark {
 
 /* Medical page menu link: shorter label where the header is tight */
 @media(min-width:701px) and (max-width:930px){.nav-extra{display:none}}
+
+/* Footer: legal name, business address and email (banks and Stripe check these) */
+.footer-entity{line-height:1.7;text-align:right}.footer-entity a{color:#c5ad91}.footer-entity a:hover{color:#f4d4af}
+@media(max-width:700px){.footer-entity{text-align:left}}
