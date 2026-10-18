@@ -1337,3 +1337,6 @@ details[open] .expand-mark {
     padding-top: 110px;
   }
 }
+
+/* Medical page menu link: shorter label where the header is tight */
+@media(min-width:701px) and (max-width:930px){.nav-extra{display:none}}
